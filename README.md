@@ -32,8 +32,8 @@
 - [UI Template Customization](#ui-template-customization)
 - [Home Assistant Configuration (mqtt.yaml)](#home-assistant-configuration-mqttyaml)
 - [Building and Flashing Instructions](#building-and-flashing-instructions)
-  - [Build and Flash (RP2040)](#build-rp2040)
-  - [Build and Flash (ESP32)](#build-esp32)
+  - [Build and Flash (RP2040)](#build-and-flash-rp2040)
+  - [Build and Flash (ESP32)](#build-and-flash-esp32)
 
 ## System Architecture
 
@@ -245,7 +245,7 @@ mode: single
 
 ## Building and Flashing Instructions
 
-### Build and Flash (RP2040){#build-rp2040}
+### Build and Flash (RP2040)
 
 To build and flash the RP2040 for this project, follow these steps using the Arduino IDE:
 
@@ -263,7 +263,7 @@ To build and flash the RP2040 for this project, follow these steps using the Ard
 
 For more detailed instructions, including setting up the Arduino IDE and troubleshooting common issues, refer to the [Seeed Studio guide](https://wiki.seeedstudio.com/SenseCAP_Indicator_How_To_Flash_The_Default_Firmware/#for-rp2040) or [repo:SenseCAP Indicator RP2040](https://github.com/Seeed-Solution/SenseCAP_Indicator_RP2040).
 
-### Build and Flash (ESP32){#build-esp32}
+### Build and Flash (ESP32)
 
 #### Windows
 
@@ -277,18 +277,18 @@ To set up your ESP32 for this project, follow these steps:
 
 #### Linux
 
-- only use version `v5.1.x` [(source)](https://github.com/Seeed-Solution/SenseCAP_Indicator_ESP32/blob/main/README.md#usage)
-- `ESP32s3` is the type, so it has to be installed as well
+- **only use version v5.1.x** [(source)](https://github.com/Seeed-Solution/SenseCAP_Indicator_ESP32/blob/main/README.md#usage)
+- **ESP32s3** is the type used in the Indicator
 
 1. `mkdir ~/esp/ && cd ~/esp/`
 2. `git clone -b v5.1.6 --recursive https://github.com/espressif/esp-idf.git`
 3. `cd ~/esp/esp-idf/`
 4. `./install.sh esp32,esp32s3`
-5. change in your project directory `cd ~/<your-project>`
-6. `source ~/esp/esp-idf/export.sh`
-7. (optional) if your user is not in the `dialout` or `uucp` group, then run `sudo chown $(whoami):$(whoami) /dev/ttyUSB0`
-8. `idf.py build` (this will not work without point 6)
-9. `idf.py -p /dev/ttyUSB0 flash monitor`
+5. change in **your project directory** `cd ~/<your-project>`
+6. `source ~/esp/esp-idf/export.sh` (important for task 8 and 9)
+7. (optional) if your user is not part of the `dialout` or `uucp` group, then run `sudo chown $(whoami):$(whoami) /dev/ttyUSB0`
+8. `idf.py build`
+9. `idf.py -p /dev/ttyUSB0 flash monitor` (change `/dev/ttyUSB0` if you're using a different port)
 
 #### build process{#build-process}
 
