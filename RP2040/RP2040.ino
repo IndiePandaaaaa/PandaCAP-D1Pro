@@ -3,7 +3,7 @@
 #include <PacketSerial.h>
 #include <SD.h>
 #include <SPI.h>
-#include <SensirionI2CScd4x.h>
+#include <SensirionI2cScd4x.h>
 #include <SensirionI2CSgp40.h>
 #include <VOCGasIndexAlgorithm.h>
 #include <Wire.h>
@@ -25,7 +25,7 @@
 
 AHT20 AHT;
 SensirionI2CSgp40 sgp40;
-SensirionI2CScd4x scd4x;
+SensirionI2cScd4x scd4x;
 VOCGasIndexAlgorithm voc_algorithm;
 
 PacketSerial ESP32Channel;
@@ -347,113 +347,83 @@ void sensor_sgp40_get(void)
 
 /************************ scd4x  co2 ****************************/
 
-/**
- * Initializes the SCD4x sensor.
- */
-void sensor_scd4x_init(void)
-{
-    uint16_t error;
-    char errorMessage[256];
+void sensor_scd4x_init(void) {
+  uint16_t error;
+  char errorMessage[256];
 
-    scd4x.begin(Wire);
+  scd4x.begin(Wire, 0x62);
 
-    // stop potentially previously started measurement
-    error = scd4x.stopPeriodicMeasurement();
-    if (error)
-    {
-        Serial.print("Error trying to execute stopPeriodicMeasurement(): ");
-        errorToString(error, errorMessage, 256);
-        Serial.println(errorMessage);
-    }
+  // stop potentially previously started measurement
+  error = scd4x.stopPeriodicMeasurement();
+  if (error) {
+    Serial.print("Error trying to execute stopPeriodicMeasurement(): ");
+    errorToString(error, errorMessage, 256);
+    Serial.println(errorMessage);
+  }
 
-    uint16_t serial0;
-    uint16_t serial1;
-    uint16_t serial2;
-    error = scd4x.getSerialNumber(serial0, serial1, serial2);
-    if (error)
-    {
-        Serial.print("Error trying to execute getSerialNumber(): ");
-        errorToString(error, errorMessage, 256);
-        Serial.println(errorMessage);
-    }
-    else
-    {
-        printSerialNumber(serial0, serial1, serial2);
-    }
+  uint64_t serialNumber;
+  error = scd4x.getSerialNumber(serialNumber);
+  if (error) {
+    Serial.print("Error trying to execute getSerialNumber(): ");
+    errorToString(error, errorMessage, 256);
+    Serial.println(errorMessage);
+  } else {
+    Serial.print("Serial number: ");
+    Serial.println((uint32_t)(serialNumber >> 32), HEX);
+    Serial.println((uint32_t)(serialNumber & 0xFFFFFFFF), HEX);
+  }
 
-    // Start Measurement
-    error = scd4x.startPeriodicMeasurement();
-    if (error)
-    {
-        Serial.print("Error trying to execute startPeriodicMeasurement(): ");
-        errorToString(error, errorMessage, 256);
-        Serial.println(errorMessage);
-    }
-    // scd4x.powerDown();
+  // Start Measurement
+  error = scd4x.startPeriodicMeasurement();
+  if (error) {
+    Serial.print("Error trying to execute startPeriodicMeasurement(): ");
+    errorToString(error, errorMessage, 256);
+    Serial.println(errorMessage);
+  }
+  // scd4x.powerDown();
 }
 
-/**
- * @brief Gets sensor data from the SCD4x sensor.
- * 
- * This function retrieves data from the SCD4x sensor and stores it in a buffer.
- * The data can then be read from the buffer using the `sensor_scd4x_read` function.
- * 
- * @note This function assumes that the SCD4x sensor has already been initialized.
- * 
- * @return None.
- */
-void sensor_scd4x_get(void)
-{
-    uint16_t error;
-    char errorMessage[256];
-#if DEBUG
-    Serial.print("sensor scd4x: ");
-#endif
-    // Read Measurement
-    uint16_t co2;
-    float temperature;
-    float humidity;
-    error = scd4x.readMeasurement(co2, temperature, humidity);
-    if (error)
-    {
-        Serial.print("Error trying to execute readMeasurement(): ");
-        errorToString(error, errorMessage, 256);
-        Serial.println(errorMessage);
-    }
-    else if (co2 == 0)
-    {
-        Serial.println("Invalid sample detected, skipping.");
-    }
-    else
-    {
-#if DEBUG
-        Serial.print("Co2:");
-        Serial.print(co2);
-        Serial.print("\t");
-        Serial.print("Temperature:");
-        Serial.print(temperature);
-        Serial.print("\t");
-        Serial.print("Humidity:");
-        Serial.println(humidity);
-#endif
-    }
+void sensor_scd4x_get(void) {
+  uint16_t error;
+  char errorMessage[256];
 
-    SDDataString += "scd4x,";
-    if (error)
-    {
-        SDDataString += "-,-,-,";
-    }
-    else
-    {
-        SDDataString += String(co2);
-        SDDataString += ',';
-        SDDataString += String(temperature);
-        SDDataString += ',';
-        SDDataString += String(humidity);
-        SDDataString += ',';
+  Serial.print("sensor scd4x: ");
+  // Read Measurement
+  uint16_t co2;
+  float temperature;
+  float humidity;
+  error = scd4x.readMeasurement(co2, temperature, humidity);
+  if (error) {
+    Serial.print("Error trying to execute readMeasurement(): ");
+    errorToString(error, errorMessage, 256);
+    Serial.println(errorMessage);
+  } else if (co2 == 0) {
+    Serial.println("Invalid sample detected, skipping.");
+  } else {
+    Serial.print("Co2:");
+    Serial.print(co2);
+    Serial.print("\t");
+    Serial.print("Temperature:");
+    Serial.print(temperature);
+    Serial.print("\t");
+    Serial.print("Humidity:");
+    Serial.println(humidity);
+  }
 
-        sensor_data_send(PKT_TYPE_SENSOR_SCD41_CO2, (float)co2); // todo
-    }
+  SDDataString += "scd4x,";
+  if (error) {
+    SDDataString += "-,-,-,";
+  } else {
+    SDDataString += String(co2);
+    SDDataString += ',';
+    SDDataString += String(temperature);
+    SDDataString += ',';
+    SDDataString += String(humidity);
+    SDDataString += ',';
+
+
+    sensor_data_send(PKT_TYPE_SENSOR_SCD41_CO2, (float)co2);  //todo
+  }
 }
 
 /************************ beep ****************************/
@@ -623,6 +593,10 @@ void setup()
     Serial.begin(115200);
     // delay(2000);
     // Serial.print(SENSECAP);
+
+    while (!Serial) {
+        delay(100);
+    }
 
     Serial1.setRX(17);
     Serial1.setTX(16);
