@@ -1,4 +1,3 @@
-
 <p align="center">
   <img src="./logo.png" width="120" height="auto" alt="Senseconfig"/>
 </p>
@@ -10,13 +9,13 @@
 
 </div>
 
-# Overview 
+# Overview
 
 <img align="right" width="240" src="https://files.seeedstudio.com/wiki/SenseCAP/SenseCAP_Indicator/SenseCAP_Indicator_1.png" style="border-radius:8px"/>This version introduces dynamic screen loading based on a user-modifiable configuration file in JSON format, stored on an SDCard. This file includes Indicator screens (e.g., sensor displays, switches) and Home Assistant connection details, eliminating the need for firmware recompilation when adding new items.
 
 <!-- The main difference is the feature to load Indicator screens (sensor, switch, etc.) based on a configuration file. The configuration file is stored in the SDCard and can be modified by the user. The configuration file is in JSON format. The configuration file is loaded at startup. -->
 
-***Initial example look and feel used:***
+**_Initial example look and feel used:_**
 
 <figure class="third">
     <img align="left" src="./docs/Home Assistant Data.png" width="240"/>
@@ -25,7 +24,18 @@
     <img align="center" src="./docs/Home Assistant Control(OFF).png" width="240"/>
 </figure>
 
-## System Atrchitecture
+## Table of contents
+
+- [System Architecture](#system-architecture)
+- [Core Functions](#core-functions)
+- [Enhanced functionalities](#enhanced-functionalities)
+- [UI Template Customization](#ui-template-customization)
+- [Home Assistant Configuration (mqtt.yaml)](#home-assistant-configuration-mqttyaml)
+- [Building and Flashing Instructions](#building-and-flashing-instructions)
+  - [Build and Flash (RP2040)](#build-rp2040)
+  - [Build and Flash (ESP32)](#build-esp32)
+
+## System Architecture
 
 <img src="./docs/SenceCapConfig.png">
 
@@ -67,6 +77,7 @@ In addition to the core features, the project now supports:
 ### Screens types
 
 Different type of pages are support defined as grid:
+
 - 1x1 (1 coluum of 1 Xlarge UI item)
 - 1x2 (1 coloum of 2 large UI items)
 - 1x3 (1 coloum of 3 medium UI items)
@@ -80,10 +91,10 @@ Different type of pages are support defined as grid:
 
 1. Sensor : Display sensor data and select one of the 4 icons
 2. Switch button : Display a switch button (Switch type in mqtt)
-2. Switch toggle : Display a switch toggle (Switch type in mqtt)
-3. Switch slider : Display a switch slider (Number type in mqtt)
-4. Switch arc : Display a switch arc (Number type in mqtt)
-5. Switch dropdown : Display a switch dropdown (Selec type in mqtt)
+3. Switch toggle : Display a switch toggle (Switch type in mqtt)
+4. Switch slider : Display a switch slider (Number type in mqtt)
+5. Switch arc : Display a switch arc (Number type in mqtt)
+6. Switch dropdown : Display a switch dropdown (Selec type in mqtt)
 
 </details>
 <!-- ⛔️ MD-MAGIC-EXAMPLE:END -->
@@ -92,7 +103,7 @@ Different type of pages are support defined as grid:
 
 ### How to modify the UI templates
 
-The UI templates are based on squareline (see /squareline/ sub folder with projects) with different UI elements. 
+The UI templates are based on squareline (see /squareline/ sub folder with projects) with different UI elements.
 You can find few projects for large, medium and small screens. You can modify the UI elements, generate the code and modify the `./main/ui/screens/ui_sreen_ha_templates` files.
 
 ### How to use this version
@@ -103,44 +114,44 @@ Please first read the [User Guide](https://wiki.seeedstudio.com/Sensor/SenseCAP/
 
 The heart of this project's customization lies in the configuration file, which is stored on an SDCard and loaded by the RP2040(the ESP32 MCU will request the configuration file from the RP2040 and generate screens, sensors and swtiches.):
 
-Structure of the config file : 
+Structure of the config file :
 
 ```json
 {
-    "url": "mqtt://<url>",
-    "username": "<username>",
-    "password": "<password>",
-    "pages": [
+  "url": "mqtt://<url>",
+  "username": "<username>",
+  "password": "<password>",
+  "pages": [
+    {
+      "name": "<PAGE_NAME>",
+      "label": "<PAGE_LABEL>",
+      "type": "<PAGE_TYPE>",
+      "sensors": [
         {
-            "name": "<PAGE_NAME>",
-            "label": "<PAGE_LABEL>",
-            "type": "<PAGE_TYPE>",
-            "sensors": [
-                {
-                    "name": "<SENSOR_NAME>",
-                    "label": "<SENSOR_LABEL>",
-                    "unit": "<SENSOR_UNIT>",
-                    "key": "<SENSOR_HA_KEY>",
-                    "x": "<SENSOR_X>",
-                    "y": "<SENSOR_Y>",
-                    "icon": "<SENSOR_ICON>",
-                    "size": "<SENSOR_SIZE>"
-                },
-            ],
-            "switches": [
-                {
-                    "name": "<SWITCH_NAME>",
-                    "label": "<SWITCH_LABEL>",
-                    "key": "<SWITCH_HA_KEY>",
-                    "x": "<SWITCH_X>",
-                    "y": "<SWITCH_Y>",
-                    "type": "<SWITCH_TYPE>",
-                    "size": "<SWITCH_SIZE>",                 
-                    "unit": "<SWITCH_UNIT>"   
-                },
-            ]
+          "name": "<SENSOR_NAME>",
+          "label": "<SENSOR_LABEL>",
+          "unit": "<SENSOR_UNIT>",
+          "key": "<SENSOR_HA_KEY>",
+          "x": "<SENSOR_X>",
+          "y": "<SENSOR_Y>",
+          "icon": "<SENSOR_ICON>",
+          "size": "<SENSOR_SIZE>"
         }
-    ]
+      ],
+      "switches": [
+        {
+          "name": "<SWITCH_NAME>",
+          "label": "<SWITCH_LABEL>",
+          "key": "<SWITCH_HA_KEY>",
+          "x": "<SWITCH_X>",
+          "y": "<SWITCH_Y>",
+          "type": "<SWITCH_TYPE>",
+          "size": "<SWITCH_SIZE>",
+          "unit": "<SWITCH_UNIT>"
+        }
+      ]
+    }
+  ]
 }
 ```
 
@@ -203,7 +214,7 @@ number:
 
 If you want to display any information from HA on SenseCap Indicator screens (like temp, humidity of other sensors, rooms), you need to create an automation to publish the data to the Indicator device.
 
-*Example of the automation*
+_Example of the automation_
 Publish a temperature and humidity sensor data on MQTT every minute (time_pattern)
 
 ```yaml
@@ -228,12 +239,13 @@ action:
       qos: "0"
       retain: false
       topic: indicator/sensor
-      payload: "{\"<SENSOR_HA_KEY>\" : \"{{states('sensor.<HA_SENSOR_NAME>') }}\"}"
+      payload: '{"<SENSOR_HA_KEY>" : "{{states(''sensor.<HA_SENSOR_NAME>'') }}"}'
 mode: single
 ```
+
 ## Building and Flashing Instructions
 
-### Build and Flash (RP2040)
+### Build and Flash (RP2040){#build-rp2040}
 
 To build and flash the RP2040 for this project, follow these steps using the Arduino IDE:
 
@@ -251,13 +263,34 @@ To build and flash the RP2040 for this project, follow these steps using the Ard
 
 For more detailed instructions, including setting up the Arduino IDE and troubleshooting common issues, refer to the [Seeed Studio guide](https://wiki.seeedstudio.com/SenseCAP_Indicator_How_To_Flash_The_Default_Firmware/#for-rp2040) or [repo:SenseCAP Indicator RP2040](https://github.com/Seeed-Solution/SenseCAP_Indicator_RP2040).
 
-### Build and Flash (ESP32)
+### Build and Flash (ESP32){#build-esp32}
+
+#### Windows
+
+For the setup follow the steps explained in this [video](https://www.youtube.com/watch?v=oqJz6zKfc4A).
 
 To set up your ESP32 for this project, follow these steps:
 
 1. **Install ESP-IDF**: Begin by installing the ESP-IDF (Espressif IoT Development Framework) from the official [ESP-IDF Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html). This framework provides the necessary tools and libraries for ESP32 development.
 
 2. **Build, Flash, and Monitor**: Use the command `idf.py -p PORT flash monitor` in your terminal to build the project, flash it to the ESP32, and open the serial monitor. This command allows you to observe real-time logs from the ESP32. To exit the serial monitor, press `Ctrl-]`.
+
+#### Linux
+
+- only use version `v5.1.x` [(source)](https://github.com/Seeed-Solution/SenseCAP_Indicator_ESP32/blob/main/README.md#usage)
+- `ESP32s3` is the type, so it has to be installed as well
+
+1. `mkdir ~/esp/ && cd ~/esp/`
+2. `git clone -b v5.1.6 --recursive https://github.com/espressif/esp-idf.git`
+3. `cd ~/esp/esp-idf/`
+4. `./install.sh esp32,esp32s3`
+5. change in your project directory `cd ~/<your-project>`
+6. `source ~/esp/esp-idf/export.sh`
+7. (optional) if your user is not in the `dialout` or `uucp` group, then run `sudo chown $(whoami):$(whoami) /dev/ttyUSB0`
+8. `idf.py build` (this will not work without point 6)
+9. `idf.py -p /dev/ttyUSB0 flash monitor`
+
+#### build process{#build-process}
 
 For a comprehensive walkthrough, refer to the detailed [Getting Started Guide with ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/get-started/index.html). This guide covers everything from setting up the development environment to running your first project.
 
