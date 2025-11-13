@@ -290,8 +290,6 @@ To set up your ESP32 for this project, follow these steps:
 8. `idf.py build`
 9. `idf.py -p /dev/ttyUSB0 flash monitor` (change `/dev/ttyUSB0` if you're using a different port)
 
-#### build process{#build-process}
+> For a comprehensive walkthrough, refer to the detailed [Getting Started Guide with ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/get-started/index.html). This guide covers everything from setting up the development environment to running your first project.
 
-For a comprehensive walkthrough, refer to the detailed [Getting Started Guide with ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/get-started/index.html). This guide covers everything from setting up the development environment to running your first project.
-
-For additional information and specific instructions for the SenseCAP Indicator project, consult the [Seeed Studio guide](https://wiki.seeedstudio.com/SenseCAP_Indicator_How_To_Flash_The_Default_Firmware/#for-esp32-s3) or [repo:SenseCAP Indicator ESP32](https://github.com/Seeed-Solution/SenseCAP_Indicator_ESP32).
+> For additional information and specific instructions for the SenseCAP Indicator project, consult the [Seeed Studio guide](https://wiki.seeedstudio.com/SenseCAP_Indicator_How_To_Flash_The_Default_Firmware/#for-esp32-s3) or [repo:SenseCAP Indicator ESP32](https://github.com/Seeed-Solution/SenseCAP_Indicator_ESP32).
