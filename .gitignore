@@ -57,3 +57,6 @@ tmp_bin/
 build/
 *ha_config.json
 squareline/backup/*
+
+# build files
+ESP32/1
