@@ -261,19 +261,17 @@ To build and flash the RP2040 for this project, follow these steps using the Ard
 4. **Select Board and Port**: In the Arduino IDE, search for and select the "Seeed INDICATOR RP2040" board. Then, choose the appropriate serial port (usually labeled as usbmodem).
 5. **Build and Flash**
 
-For more detailed instructions, including setting up the Arduino IDE and troubleshooting common issues, refer to the [Seeed Studio guide](https://wiki.seeedstudio.com/SenseCAP_Indicator_How_To_Flash_The_Default_Firmware/#for-rp2040) or [repo:SenseCAP Indicator RP2040](https://github.com/Seeed-Solution/SenseCAP_Indicator_RP2040).
+> For more detailed instructions, including setting up the Arduino IDE and troubleshooting common issues, refer to the [Seeed Studio guide](https://wiki.seeedstudio.com/SenseCAP_Indicator_How_To_Flash_The_Default_Firmware/#for-rp2040) or [repo:SenseCAP Indicator RP2040](https://github.com/Seeed-Solution/SenseCAP_Indicator_RP2040).
 
 ### Build and Flash (ESP32)
 
 #### Windows
 
-For the setup follow the steps explained in this [video](https://www.youtube.com/watch?v=oqJz6zKfc4A).
+1. **Setup**: follow the steps explained in this [video](https://www.youtube.com/watch?v=oqJz6zKfc4A).
 
-To set up your ESP32 for this project, follow these steps:
+2. **Install ESP-IDF**: Begin by installing the ESP-IDF (Espressif IoT Development Framework) from the official [ESP-IDF Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html). This framework provides the necessary tools and libraries for ESP32 development.
 
-1. **Install ESP-IDF**: Begin by installing the ESP-IDF (Espressif IoT Development Framework) from the official [ESP-IDF Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html). This framework provides the necessary tools and libraries for ESP32 development.
-
-2. **Build, Flash, and Monitor**: Use the command `idf.py -p PORT flash monitor` in your terminal to build the project, flash it to the ESP32, and open the serial monitor. This command allows you to observe real-time logs from the ESP32. To exit the serial monitor, press `Ctrl-]`.
+3. **Build, Flash, and Monitor**: Use the command `idf.py -p PORT flash monitor` in your terminal to build the project, flash it to the ESP32, and open the serial monitor. This command allows you to observe real-time logs from the ESP32. To exit the serial monitor, press `Ctrl-]`.
 
 #### Linux
 
