@@ -5,7 +5,7 @@
 
 # Indicator Home Assistant with Configuration File
 
-✨This project is based on the example project for SenseCap Indicator with added Home Assistant functions.✨
+✨This project is based on the example project for Seeed Sense CAP Indicator with added Home Assistant functions.✨
 
 </div>
 
@@ -78,14 +78,14 @@ In addition to the core features, the project now supports:
 
 Different type of pages are support defined as grid:
 
-- 1x1 (1 coluum of 1 Xlarge UI item)
-- 1x2 (1 coloum of 2 large UI items)
-- 1x3 (1 coloum of 3 medium UI items)
-- 1x4 (1 coloum of 4 small UI items)
-- 2x1 (2 coloums of 1 Xlarge UI item)
-- 2x2 (2 coloums of 2 large UI items)
-- 2x3 (2 coloums of 3 medium UI items)
-- 2x4 (2 coloums of 4 small UI items)
+- 1x1 (1 column of 1 Xlarge UI item)
+- 1x2 (1 column of 2 large UI items)
+- 1x3 (1 column of 3 medium UI items)
+- 1x4 (1 column of 4 small UI items)
+- 2x1 (2 columns of 1 Xlarge UI item)
+- 2x2 (2 columns of 2 large UI items)
+- 2x3 (2 columns of 3 medium UI items)
+- 2x4 (2 columns of 4 small UI items)
 
 ### Type of UI items
 
@@ -277,7 +277,7 @@ To set up your ESP32 for this project, follow these steps:
 
 #### Linux
 
-- **only use version v5.1.x** [(source)](https://github.com/Seeed-Solution/SenseCAP_Indicator_ESP32/blob/main/README.md#usage)
+- **only use version `v5.1.x`** [(source)](https://github.com/Seeed-Solution/SenseCAP_Indicator_ESP32/blob/main/README.md#usage)
 - **ESP32s3** is the type used in the Indicator
 
 1. `mkdir ~/esp/ && cd ~/esp/`
