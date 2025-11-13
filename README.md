@@ -281,12 +281,13 @@ To build and flash the RP2040 for this project, follow these steps using the Ard
 1. `mkdir ~/esp/ && cd ~/esp/`
 2. `git clone -b v5.1.6 --recursive https://github.com/espressif/esp-idf.git`
 3. `cd ~/esp/esp-idf/`
-4. `./install.sh esp32,esp32s3`
-5. change in **your project directory** `cd ~/<your-project>`
-6. `source ~/esp/esp-idf/export.sh` (important for task 8 and 9)
-7. (optional) if your user is not part of the `dialout` or `uucp` group, then run `sudo chown $(whoami):$(whoami) /dev/ttyUSB0`
-8. `idf.py build`
-9. `idf.py -p /dev/ttyUSB0 flash monitor` (change `/dev/ttyUSB0` if you're using a different port)
+4. before running you will need additional software described [here](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/linux-macos-setup.html#for-linux-users)
+5. `./install.sh esp32,esp32s3`
+6. change in **your project directory** `cd ~/<your-project>`
+7. `source ~/esp/esp-idf/export.sh` (important for task 8 and 9)
+8. (optional) if your user is not part of the `dialout` or `uucp` group, then run `sudo chown $(whoami):$(whoami) /dev/ttyUSB0`
+9. `idf.py build`
+10. `idf.py -p /dev/ttyUSB0 flash monitor` (change `/dev/ttyUSB0` if you're using a different port)
 
 > For a comprehensive walkthrough, refer to the detailed [Getting Started Guide with ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/get-started/index.html). This guide covers everything from setting up the development environment to running your first project.
 
